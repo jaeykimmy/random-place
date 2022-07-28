@@ -4,9 +4,23 @@ const app = express();
 require("dotenv").config();
 
 app.get("/", (req, res) => {
+  let lat;
+  let lng;
+  axios
+    .post(
+      `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
+    )
+    .then(function (response) {
+      lat = response.data.location.lat;
+      lng = response.data.location.lng;
+      console.log(lat, lng);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=43.8646966,-79.4591268&radius=2000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=${lat},${lng}&radius=2000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
     )
     .then(function (response) {
       res.header("Access-Control-Allow-Origin", "http://localhost:3000");

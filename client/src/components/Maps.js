@@ -22,7 +22,7 @@ export default function Maps() {
   return (
     <div>
       {data.map((x) => {
-        return <p>{x.name}</p>;
+        return <p key={x.place_id}>{x.name}</p>;
       })}
     </div>
   );

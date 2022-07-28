@@ -14,9 +14,9 @@ function App() {
 
   return (
     <div>
-      <h1>Random Place Generator</h1>
-      <span>{randomNum}</span>
-      <button onClick={handleRandomNum}>click</button>
+      <h1>Coffee Shop Near You</h1>
+      {/* <span>{randomNum}</span>
+      <button onClick={handleRandomNum}>click</button> */}
       <Maps />
       {/* <MarkerMade /> */}
       <Geolocate />

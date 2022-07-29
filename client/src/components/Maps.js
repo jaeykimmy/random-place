@@ -8,18 +8,19 @@ import {
   Box,
   Card,
   CardContent,
+  Button,
 } from "@mui/material";
 
 export default function Maps() {
   const [data, setData] = useState([]);
-
+  const [search, setSearch] = useState("");
   const handleChange = (event) => {
-    setData(event.target.value);
+    setSearch(event.target.value);
   };
-  // axios.post("http://localhost:4000/", {
-  //   query: e.target.value,
-  // });
-
+  axios.post("http://localhost:4000/", {
+    query: search,
+  });
+  console.log(search);
   useEffect(() => {
     axios("http://localhost:4000/")
       .then(function (response) {
@@ -37,7 +38,10 @@ export default function Maps() {
 
   return (
     <div>
-      <TextField onChange={(e) => console.log(e.target.value)} />
+      <Box m={2}>
+        <TextField onChange={handleChange} />
+        <Button onClick={() => console.log(search)}>Search</Button>
+      </Box>
       {goodCoffee.map((x) => {
         return (
           <Box key={x.place_id} m={2}>

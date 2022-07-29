@@ -14,12 +14,12 @@ function App() {
 
   return (
     <div>
-      <h1>Coffee Shop Near You</h1>
+      <h1>Good Coffee</h1>
       {/* <span>{randomNum}</span>
       <button onClick={handleRandomNum}>click</button> */}
       <Maps />
       {/* <MarkerMade /> */}
-      <Geolocate />
+      {/* <Geolocate /> */}
     </div>
   );
 }

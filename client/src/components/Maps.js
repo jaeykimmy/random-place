@@ -18,11 +18,19 @@ export default function Maps() {
       });
   }, []);
 
-  console.log(data);
+  const goodCoffee = data.filter((x) => {
+    return x.rating > 4.4;
+  });
+
   return (
     <div>
-      {data.map((x) => {
-        return <p key={x.place_id}>{x.name}</p>;
+      {goodCoffee.map((x) => {
+        return (
+          <div key={x.place_id}>
+            <h2>{x.name}</h2>
+            <p>{x.rating}</p>
+          </div>
+        );
       })}
     </div>
   );

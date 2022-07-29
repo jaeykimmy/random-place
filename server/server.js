@@ -17,7 +17,14 @@ axios
   .catch(function (error) {
     console.log(error);
   });
+
+//make this later
+// function buildAPIString(query, location, radius, rating) {
+//   return https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=${lat},${lng}&radius=2000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+// }
+
 app.get("/", async (req, res) => {
+  console.log(req.query);
   await axios
     .get(
       `https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=${lat},${lng}&radius=2000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`

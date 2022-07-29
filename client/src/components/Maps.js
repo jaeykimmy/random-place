@@ -1,7 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { TextField, Rating } from "@mui/material";
+import {
+  TextField,
+  Rating,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+} from "@mui/material";
 
 export default function Maps() {
   const [data, setData] = useState([]);
@@ -33,20 +40,27 @@ export default function Maps() {
       <TextField onChange={(e) => console.log(e.target.value)} />
       {goodCoffee.map((x) => {
         return (
-          <div key={x.place_id}>
-            <h2>{x.name}</h2>
-            <p>
-              Rating: {x.rating}
-              <Rating
-                name="read-only"
-                value={x.rating}
-                precision={0.1}
-                readOnly
-              />
-            </p>
-
-            <p>{x.user_ratings_total} Reviews</p>
-          </div>
+          <Box key={x.place_id} m={2}>
+            <Card className="card" variant="outlined">
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {x.name}
+                </Typography>
+                <Rating
+                  name="read-only"
+                  value={x.rating}
+                  precision={0.1}
+                  readOnly
+                />
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Rating: {x.rating}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1.5 }}>
+                  {x.user_ratings_total} Reviews
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
         );
       })}
     </div>

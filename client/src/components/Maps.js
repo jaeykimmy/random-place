@@ -17,10 +17,9 @@ export default function Maps() {
   const handleChange = (event) => {
     setSearch(event.target.value);
   };
-  axios.post("http://localhost:4000/", {
-    query: search,
-  });
-  console.log(search);
+  // axios.post("http://localhost:4000/", {
+  //   query: search,
+  // });
   useEffect(() => {
     axios("http://localhost:4000/")
       .then(function (response) {

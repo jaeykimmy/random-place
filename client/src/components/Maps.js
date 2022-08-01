@@ -17,11 +17,8 @@ export default function Maps() {
   const handleChange = (event) => {
     setSearch(event.target.value);
   };
-  // axios.post("http://localhost:4000/", {
-  //   query: search,
-  // });
   useEffect(() => {
-    axios("http://localhost:4000/")
+    axios("http://localhost:4000")
       .then(function (response) {
         setData(response.data.results);
       })
@@ -29,6 +26,15 @@ export default function Maps() {
         console.log(error);
       });
   }, []);
+
+  // axios
+  //   .post("http://localhost:4000/", {
+  //     query: search,
+  //     header: { "Access-Control-Allow-Origin": "http://localhost:3000" },
+  //   })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   });
 
   const goodCoffee = data.filter((x) => {
     return x.rating > 4.4;

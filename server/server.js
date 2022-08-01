@@ -12,7 +12,7 @@ axios
   .then(function (response) {
     lat = response.data.location.lat;
     lng = response.data.location.lng;
-    console.log("coord", lat, lng);
+    // console.log("coord", lat, lng);
   })
   .catch(function (error) {
     console.log(error);
@@ -24,11 +24,16 @@ axios
 // }
 
 app.get("/", async (req, res) => {
-  console.log(req.query);
+  // console.log(req);
   await axios
-    .get(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=${lat},${lng}&radius=1000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
-    )
+    .get(`https://maps.googleapis.com/maps/api/place/textsearch/json`, {
+      params: {
+        query: "coffee+shop",
+        location: { lat: lat, lng: lng },
+        radius: 1000,
+        key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+      },
+    })
     .then(function (response) {
       res.header("Access-Control-Allow-Origin", "http://localhost:3000");
       res.send(response.data);
@@ -39,9 +44,15 @@ app.get("/", async (req, res) => {
     });
 });
 
-app.post("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.send(response.data);
+app.post("/", async (req, res) => {
+  await axios
+    .get("http://localhost:3000")
+
+    .then(function (response) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(response.data);
+      // console.log(response.data.results);
+    });
 });
 
 app.listen(4000);

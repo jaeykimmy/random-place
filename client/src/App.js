@@ -17,9 +17,9 @@ function App() {
       <h1>Good Coffee</h1>
       {/* <span>{randomNum}</span>
       <button onClick={handleRandomNum}>click</button> */}
-      <Maps />
+      {/* <Maps /> */}
       {/* <MarkerMade /> */}
-      {/* <Geolocate /> */}
+      <Geolocate />
     </div>
   );
 }

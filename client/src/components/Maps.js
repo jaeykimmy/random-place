@@ -11,26 +11,39 @@ import {
   Button,
 } from "@mui/material";
 
-export default function Maps() {
+export default function Maps({ lat, lng }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const handleChange = (event) => {
-    setSearch(event.target.value);
-  };
-  useEffect(() => {
-    axios("http://localhost:4000")
+
+  const searchPlace = () => {
+    axios
+      .get(
+        `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
+        {
+          params: {
+            radius: 1000,
+            // location: { lat: lat, lng: lng },
+            query: { search },
+            // location: { lat: 43, lng: 80 },
+            key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+          },
+        }
+      )
       .then(function (response) {
         setData(response.data.results);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  };
 
   // axios
-  //   .post("http://localhost:4000/", {
-  //     query: search,
-  //     header: { "Access-Control-Allow-Origin": "http://localhost:3000" },
+  //   .post("https://good-coffee-server.herokuapp.com/", {
+  //     // query: search,
+  //     header: {
+  //       "Access-Control-Allow-Origin":
+  //         "https://jaeykimmy-makes-great-sites.netlify.app/",
+  //     },
   //   })
   //   .then(function (response) {
   //     console.log(response);
@@ -43,10 +56,12 @@ export default function Maps() {
 
   return (
     <div>
-      <Box m={2}>
+      <TextField onChange={(e) => setSearch(e.target.value)} />
+      <Button onClick={searchPlace}>search</Button>
+      {/* <Box m={2}>
         <TextField onChange={handleChange} />
-        <Button onClick={() => console.log(search)}>Search</Button>
-      </Box>
+        <Button onClick={localStorage.setItem("search", search)}>Search</Button>
+      </Box> */}
       {goodCoffee.map((x) => {
         return (
           <Box key={x.place_id} m={2}>

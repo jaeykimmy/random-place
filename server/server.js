@@ -22,7 +22,9 @@ axios
 // function buildAPIString(query, location, radius, rating) {
 //   return https://maps.googleapis.com/maps/api/place/textsearch/json?query=coffee+shop&location=${lat},${lng}&radius=2000&region=us&type=cafe,bakery&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
 // }
-
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
 app.get("/", async (req, res) => {
   // console.log(req);
   await axios
@@ -35,7 +37,10 @@ app.get("/", async (req, res) => {
       },
     })
     .then(function (response) {
-      res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+      res.header.append(
+        "Access-Control-Allow-Origin",
+        "https://jaeykimmy-makes-great-sites.netlify.app/"
+      );
       res.send(response.data);
       // console.log(response.data.results);
     })
@@ -46,13 +51,15 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   await axios
-    .get("http://localhost:3000")
+    .post(
+      "https://good-coffee-server.herokuapp.com/https://jaeykimmy-makes-great-sites.netlify.app/"
+    )
 
     .then(function (response) {
-      res.header("Access-Control-Allow-Origin", "*");
+      res.header.append("Access-Control-Allow-Origin", "*");
       res.send(response.data);
       // console.log(response.data.results);
     });
 });
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);

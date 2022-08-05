@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import MarkerMade from "./MarkerMade";
+import Maps from "./Maps";
 
 export default function Geolocate() {
   const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
+  const [lng, setLng] = useState(0);
   var axios = require("axios");
 
   var config = {
@@ -17,7 +18,7 @@ export default function Geolocate() {
   axios(config)
     .then(function (response) {
       console.log(response.data);
-      setLong(response.data.location.lng);
+      setLng(response.data.location.lng);
       setLat(response.data.location.lat);
     })
     .catch(function (error) {
@@ -25,10 +26,11 @@ export default function Geolocate() {
     });
   return (
     <>
-      <div>
-        Latitude {lat} Longitude {long}
-      </div>
+      {/* <div>
+        Latitude {lat} Longitude {lng}
+      </div> */}
       {/* <MarkerMade long={long} lat={lat} /> */}
+      <Maps lat={lat} lng={lng} />
     </>
   );
 }

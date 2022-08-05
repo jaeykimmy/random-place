@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-      <h1>Good Coffee</h1>
+      <h1>5 Star Places</h1>
       {/* <span>{randomNum}</span>
       <button onClick={handleRandomNum}>click</button> */}
       {/* <Maps /> */}

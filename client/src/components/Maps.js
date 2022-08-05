@@ -23,8 +23,8 @@ export default function Maps({ lat, lng }) {
           params: {
             radius: 1000,
             // location: { lat: lat, lng: lng },
-            query: { search },
-            // location: { lat: 43, lng: 80 },
+            // syntax literal is needed to avoid search collisions
+            query: `${search}`,
             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
           },
         }

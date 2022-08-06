@@ -91,6 +91,7 @@ export default function Maps() {
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   Rating: {x.rating}
                 </Typography>
+                <Typography sx={{ mb: 1.5 }}>{x.formatted_address}</Typography>
                 <Typography variant="body2" sx={{ mb: 1.5 }}>
                   {x.user_ratings_total} Reviews
                 </Typography>

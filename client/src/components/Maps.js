@@ -16,13 +16,14 @@ export default function Maps() {
   const [search, setSearch] = useState("");
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-
-  navigator.geolocation.getCurrentPosition(function (position) {
-    setLat(position.coords.latitude);
-    setLng(position.coords.longitude);
-    console.log("Latitude is :", position.coords.latitude);
-    console.log("Longitude is :", position.coords.longitude);
-  });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }, []);
   const searchPlace = () => {
     axios
       .get(
@@ -64,8 +65,10 @@ export default function Maps() {
 
   return (
     <div>
-      <TextField onChange={(e) => setSearch(e.target.value)} />
-      <Button onClick={searchPlace}>search</Button>
+      <Box>
+        <TextField onChange={(e) => setSearch(e.target.value)} />
+        <Button onClick={searchPlace}>search</Button>
+      </Box>
       {/* <Box m={2}>
         <TextField onChange={handleChange} />
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>

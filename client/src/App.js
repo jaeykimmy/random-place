@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-      <h1>5 Star Places</h1>
+      <h1 onClick={() => window.location.reload()}>5 Star Places</h1>
       {/* <span>{randomNum}</span>
       <button onClick={handleRandomNum}>click</button> */}
       {/* <Maps /> */}

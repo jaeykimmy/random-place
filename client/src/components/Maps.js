@@ -11,10 +11,18 @@ import {
   Button,
 } from "@mui/material";
 
-export default function Maps({ lat, lng }) {
+export default function Maps() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
+  navigator.geolocation.getCurrentPosition(function (position) {
+    setLat(position.coords.latitude);
+    setLng(position.coords.longitude);
+    console.log("Latitude is :", position.coords.latitude);
+    console.log("Longitude is :", position.coords.longitude);
+  });
   const searchPlace = () => {
     axios
       .get(
@@ -22,7 +30,7 @@ export default function Maps({ lat, lng }) {
         {
           params: {
             radius: 1000,
-            // location: { lat: lat, lng: lng },
+            // location: `lat: ${lat}, lng: ${lng}`,
             // syntax literal is needed to avoid search collisions
             query: `${search}`,
             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -65,7 +73,11 @@ export default function Maps({ lat, lng }) {
       {goodCoffee.map((x) => {
         return (
           <Box key={x.place_id} m={2}>
-            <Card className="card" variant="outlined">
+            <Card
+              className="card"
+              variant="outlined"
+              href={`https://maps.googleapis.com/maps/api/place/details/json?place_id=${x.place_id}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+            >
               <CardContent>
                 <Typography variant="h5" component="div">
                   {x.name}

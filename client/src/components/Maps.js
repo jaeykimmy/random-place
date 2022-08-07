@@ -16,21 +16,21 @@ export default function Maps() {
   const [search, setSearch] = useState("");
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLat(position.coords.latitude);
-      setLng(position.coords.longitude);
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    });
-  }, []);
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    setLat(position.coords.latitude);
+    setLng(position.coords.longitude);
+    console.log("Latitude is :", position.coords.latitude);
+    console.log("Longitude is :", position.coords.longitude);
+  });
+
   const searchPlace = () => {
     axios
       .get(
         `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
         {
           params: {
-            radius: 1000,
+            radius: 500,
             // location: `lat: ${lat}, lng: ${lng}`,
             // syntax literal is needed to avoid search collisions
             query: `${search}`,

@@ -23,23 +23,24 @@ export default function Maps() {
     console.log("Latitude is :", position.coords.latitude);
     console.log("Longitude is :", position.coords.longitude);
   });
-
-  var config = {
-    method: "get",
-    url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    headers: {},
+  const distanceMatrix = async () => {
+    await searchPlace();
+    var config = {
+      method: "get",
+      url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${data.formatted_address}&units=imperial&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
-  axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  const searchPlace = () => {
-    axios
+  const searchPlace = async () => {
+    await axios
       .get(
         `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
         {
@@ -81,7 +82,7 @@ export default function Maps() {
     <div>
       <Box>
         <TextField onChange={(e) => setSearch(e.target.value)} />
-        <Button onClick={searchPlace}>search</Button>
+        <Button onClick={distanceMatrix}>search</Button>
       </Box>
       {/* <Box m={2}>
         <TextField onChange={handleChange} />

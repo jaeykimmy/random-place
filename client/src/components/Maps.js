@@ -24,6 +24,20 @@ export default function Maps() {
     console.log("Longitude is :", position.coords.longitude);
   });
 
+  var config = {
+    method: "get",
+    url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
+    headers: {},
+  };
+
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   const searchPlace = () => {
     axios
       .get(

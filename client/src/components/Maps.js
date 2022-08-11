@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import "./Maps.scss";
 import {
   TextField,
   Rating,
@@ -69,11 +69,12 @@ export default function Maps() {
 
   return (
     <div>
-      <Box>
+      <Box className="textfield-button">
+        <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
         <TextField onChange={(e) => setSearch(e.target.value)} />
         <Button onClick={searchPlace}>search</Button>
+        {isLoading && <CircularProgress />}
       </Box>
-      {isLoading && <CircularProgress />}
       {/* <Box m={2}>
         <TextField onChange={handleChange} />
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>

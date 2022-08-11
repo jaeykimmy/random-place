@@ -14,38 +14,34 @@ import {
 export default function Maps() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+    })
+  );
+  const [lng, setLng] = useState(
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLng(position.coords.longitude);
+    })
+  );
 
-  navigator.geolocation.getCurrentPosition(function (position) {
-    setLat(position.coords.latitude);
-    setLng(position.coords.longitude);
-    console.log("Latitude is :", position.coords.latitude);
-    console.log("Longitude is :", position.coords.longitude);
-  });
-  const distanceMatrix = async () => {
-    await searchPlace();
-    var config = {
-      method: "get",
-      url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${data.formatted_address}&units=imperial&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-      headers: {},
-    };
-    axios(config)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const coordinates = async () => {
+    return navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
   };
-
   const searchPlace = async () => {
-    await axios
+    await coordinates();
+
+    axios
       .get(
         `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
         {
           params: {
-            radius: 500,
+            radius: 2000,
             // location: `lat: ${lat}, lng: ${lng}`,
             // syntax literal is needed to avoid search collisions
             query: `${search}`,
@@ -61,20 +57,8 @@ export default function Maps() {
       });
   };
 
-  // axios
-  //   .post("https://good-coffee-server.herokuapp.com/", {
-  //     // query: search,
-  //     header: {
-  //       "Access-Control-Allow-Origin":
-  //         "https://jaeykimmy-makes-great-sites.netlify.app/",
-  //     },
-  //   })
-  //   .then(function (response) {
-  //     console.log(response);
-  //   });
-
   const goodCoffee = data.filter((x) => {
-    return x.rating > 4.4;
+    return x.rating > 4.4 && x.user_ratings_total > 100;
   });
   console.log(goodCoffee);
 
@@ -82,7 +66,7 @@ export default function Maps() {
     <div>
       <Box>
         <TextField onChange={(e) => setSearch(e.target.value)} />
-        <Button onClick={distanceMatrix}>search</Button>
+        <Button onClick={searchPlace}>search</Button>
       </Box>
       {/* <Box m={2}>
         <TextField onChange={handleChange} />

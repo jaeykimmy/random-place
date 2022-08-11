@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+
 import {
   TextField,
   Rating,
@@ -9,11 +10,13 @@ import {
   Card,
   CardContent,
   Button,
+  CircularProgress,
 } from "@mui/material";
 
 export default function Maps() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [lat, setLat] = useState(
     navigator.geolocation.getCurrentPosition(function (position) {
       setLat(position.coords.latitude);
@@ -34,6 +37,7 @@ export default function Maps() {
     });
   };
   const searchPlace = async () => {
+    setIsLoading(true);
     await coordinates();
 
     axios
@@ -41,7 +45,7 @@ export default function Maps() {
         `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
         {
           params: {
-            radius: 2000,
+            radius: 5000,
             // location: `lat: ${lat}, lng: ${lng}`,
             // syntax literal is needed to avoid search collisions
             query: `${search}`,
@@ -51,7 +55,9 @@ export default function Maps() {
       )
       .then(function (response) {
         setData(response.data.results);
+        setIsLoading(false);
       })
+
       .catch(function (error) {
         console.log(error);
       });
@@ -60,7 +66,6 @@ export default function Maps() {
   const goodCoffee = data.filter((x) => {
     return x.rating > 4.4 && x.user_ratings_total > 100;
   });
-  console.log(goodCoffee);
 
   return (
     <div>
@@ -68,10 +73,12 @@ export default function Maps() {
         <TextField onChange={(e) => setSearch(e.target.value)} />
         <Button onClick={searchPlace}>search</Button>
       </Box>
+      {isLoading && <CircularProgress />}
       {/* <Box m={2}>
         <TextField onChange={handleChange} />
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>
       </Box> */}
+
       {goodCoffee.map((x) => {
         return (
           <Box key={x.place_id} m={2}>

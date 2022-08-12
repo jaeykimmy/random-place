@@ -12,6 +12,7 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
+// import coffeeshop from "../assets/coffeeshop.png";
 
 export default function Maps() {
   const [data, setData] = useState([]);
@@ -45,7 +46,7 @@ export default function Maps() {
         `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}`,
         {
           params: {
-            radius: 5000,
+            radius: 1000,
             // location: `lat: ${lat}, lng: ${lng}`,
             // syntax literal is needed to avoid search collisions
             query: `${search}`,
@@ -66,20 +67,30 @@ export default function Maps() {
   const goodCoffee = data.filter((x) => {
     return x.rating > 4.4 && x.user_ratings_total > 100;
   });
+  console.log(goodCoffee);
 
   return (
-    <div>
-      <Box className="textfield-button">
-        <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
-        <TextField onChange={(e) => setSearch(e.target.value)} />
-        <Button onClick={searchPlace}>search</Button>
-        {isLoading && <CircularProgress />}
+    <div className="maps">
+      <Box className="box">
+        <Card className="textfield-button">
+          <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
+          <TextField onChange={(e) => setSearch(e.target.value)} />
+          <Button onClick={searchPlace}>search</Button>
+          {data.length === 0 && (
+            <>
+              <p>Your query should be something like : </p>
+              <p>"Burgers near me"</p>
+              <p>"Parks in Orleans"</p>
+            </>
+          )}
+          {/* {!goodCoffee && <p>No results near you, try again in a busier area!</p>} */}
+          {isLoading && <CircularProgress />}
+        </Card>
       </Box>
       {/* <Box m={2}>
         <TextField onChange={handleChange} />
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>
       </Box> */}
-
       {goodCoffee.map((x) => {
         return (
           <Box key={x.place_id} m={2}>

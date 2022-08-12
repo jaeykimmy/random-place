@@ -1,5 +1,5 @@
-import logo from "./logo.svg";
-import "./App.css";
+// import logo from "./logo.svg";
+// import "./App.css";
 import { useState } from "react";
 import Maps from "./components/Maps";
 import Geolocate from "./components/Geolocate";

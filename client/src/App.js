@@ -20,7 +20,7 @@ function App() {
       <Maps />
       {/* <MarkerMade /> */}
       {/* <Geolocate /> */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

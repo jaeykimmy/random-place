@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Footer from "./Footer";
 import "./Maps.scss";
 import {
   TextField,
@@ -67,60 +68,89 @@ export default function Maps() {
   const goodCoffee = data.filter((x) => {
     return x.rating > 4.4 && x.user_ratings_total > 100;
   });
-  console.log(goodCoffee);
+  // console.log(goodCoffee);
 
   return (
     <div className="maps">
-      <Box className="box">
-        <Card className="textfield-button">
-          <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
-          <TextField onChange={(e) => setSearch(e.target.value)} />
-          <Button onClick={searchPlace}>search</Button>
-          {data.length === 0 && (
-            <>
-              <p>Your query should be something like : </p>
-              <p>"Burgers near me"</p>
-              <p>"Parks in Orleans"</p>
-            </>
-          )}
-          {/* {!goodCoffee && <p>No results near you, try again in a busier area!</p>} */}
-          {isLoading && <CircularProgress />}
-        </Card>
-      </Box>
-      {/* <Box m={2}>
+      <div className="maps-nofooter">
+        <Box className="box">
+          <Card className="textfield-button">
+            <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
+            <TextField onChange={(e) => setSearch(e.target.value)} />
+            <Button onClick={searchPlace}>search</Button>
+            {data.length === 0 && (
+              <>
+                <p>
+                  Find your new favourite spot! Your query should be something
+                  like:{" "}
+                </p>
+                <span>
+                  <i>"Burgers near me"</i>
+                </span>
+                <p>
+                  <i>"Parks in Orleans"</i>
+                </p>
+              </>
+            )}
+            {/* {!goodCoffee && <p>No results near you, try again in a busier area!</p>} */}
+            {isLoading && <CircularProgress />}
+          </Card>
+        </Box>
+        {/* <Box m={2}>
         <TextField onChange={handleChange} />
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>
       </Box> */}
-      {goodCoffee.map((x) => {
-        return (
-          <Box key={x.place_id} m={2}>
-            <Card
-              className="card"
-              variant="outlined"
-              href={`https://maps.googleapis.com/maps/api/place/details/json?place_id=${x.place_id}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-            >
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {x.name}
-                </Typography>
-                <Rating
-                  name="read-only"
-                  value={x.rating}
-                  precision={0.1}
-                  readOnly
-                />
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Rating: {x.rating}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>{x.formatted_address}</Typography>
-                <Typography variant="body2" sx={{ mb: 1.5 }}>
-                  {x.user_ratings_total} Reviews
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        );
-      })}
+        {goodCoffee.map((x) => {
+          var config = {
+            method: "get",
+            url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${x.formatted_address}&units=imperial`,
+            headers: {},
+            params: {
+              key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+            },
+          };
+
+          axios(config)
+            .then(function (response) {
+              console.log(response.data.rows[0].elements[0].distance.text);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+          return (
+            <Box key={x.place_id} m={2}>
+              <Card
+                className="card"
+                variant="outlined"
+                href={`https://maps.googleapis.com/maps/api/place/details/json?place_id=${x.place_id}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+              >
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {x.name}
+                  </Typography>
+                  <Rating
+                    name="read-only"
+                    value={x.rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Rating: {x.rating}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }}>
+                    {x.formatted_address}
+                  </Typography>
+                  <Typography variant="body2" sx={{ mb: 1.5 }}>
+                    {x.user_ratings_total} Reviews
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          );
+        })}
+      </div>
+      <Footer />
     </div>
   );
 }

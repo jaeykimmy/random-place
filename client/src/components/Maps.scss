@@ -1,9 +1,12 @@
 .maps {
+  padding-bottom: 50px;
   .textfield-button {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     opacity: 1;
+    font-family: "Silkscreen";
+    text-align: center;
   }
 }

@@ -2,6 +2,7 @@
 // import "./App.css";
 import { useState } from "react";
 import Maps from "./components/Maps";
+import Footer from "./components/Footer";
 import Geolocate from "./components/Geolocate";
 // import MarkerMade from "./components/MarkerMade";
 
@@ -19,6 +20,7 @@ function App() {
       <Maps />
       {/* <MarkerMade /> */}
       {/* <Geolocate /> */}
+      <Footer />
     </div>
   );
 }

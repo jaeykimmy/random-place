@@ -76,7 +76,17 @@ export default function Maps() {
         <Box className="box">
           <Card className="textfield-button">
             <h1 onClick={() => window.location.reload()}> 5 Star Places</h1>
-            <TextField onChange={(e) => setSearch(e.target.value)} />
+            <TextField
+              onKeyPress={(ev) => {
+                console.log(`Pressed keyCode ${ev.key}`);
+                if (ev.key === "Enter") {
+                  // Do code here
+                  searchPlace();
+                  ev.preventDefault();
+                }
+              }}
+              onChange={(e) => setSearch(e.target.value)}
+            />
             <Button onClick={searchPlace}>search</Button>
             {data.length === 0 && (
               <>

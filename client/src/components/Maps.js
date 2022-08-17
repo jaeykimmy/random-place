@@ -68,7 +68,7 @@ export default function Maps() {
   const goodCoffee = data.filter((x) => {
     return x.rating > 4.4 && x.user_ratings_total > 100;
   });
-  // console.log(goodCoffee);
+  console.log(goodCoffee);
 
   return (
     <div className="maps">
@@ -111,22 +111,22 @@ export default function Maps() {
         <Button onClick={localStorage.setItem("search", search)}>Search</Button>
       </Box> */}
         {goodCoffee.map((x) => {
-          var config = {
-            method: "get",
-            url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${x.formatted_address}&units=imperial`,
-            headers: {},
-            params: {
-              key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-            },
-          };
+          // var config = {
+          //   method: "get",
+          //   url: `https://immense-ridge-22530.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${x.formatted_address}&units=imperial`,
+          //   headers: {},
+          //   params: {
+          //     key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+          //   },
+          // };
 
-          axios(config)
-            .then(function (response) {
-              console.log(response.data.rows[0].elements[0].distance.text);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          // axios(config)
+          //   .then(function (response) {
+          //     console.log(response.data.rows[0].elements[0].distance.text);
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //   });
 
           return (
             <Box key={x.place_id} m={2}>
@@ -153,6 +153,11 @@ export default function Maps() {
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1.5 }}>
                     {x.user_ratings_total} Reviews
+                    {x.opening_hours.open_now === true ? (
+                      <p>OPENED</p>
+                    ) : (
+                      <p>CLOSED</p>
+                    )}
                   </Typography>
                 </CardContent>
               </Card>
